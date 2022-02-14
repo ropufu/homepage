@@ -1,0 +1,31 @@
+﻿@page
+@model Xavier.IndexModel
+@{
+    ViewData["Title"] = "At Xavier";
+}
+
+<div class="card">
+    <div class="card-header text-center">
+        <h3 class="card-title">Xavier and I</h3>
+    </div>
+
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+            <h5 class="text-muted">History</h5>
+            <p>
+                It is my @StaticHelper.AddOrdinal(DateTime.Now.Year + (DateTime.Now.Month / 100.0) - 2017.07) year here at Xavier.
+                Throughout my time here, I've been trying to embrace the fact that a lot of math can be done without algebra.
+                This makes teaching introductory math classes targeting a general audience surprisingly interesting.
+                And gives you a new insight on how to look at things without relying on formal math language.
+                I never thought I could explain the concept of event algebras to a non-mathematician.
+                Maybe I'm fooling myself, but I like to think that now I can :^)
+            </p>
+        </li>
+        <li class="list-group-item">
+            <h5 class="text-muted">Music Series</h5>
+            <p>
+                One of the many fascinating things I found at Xavier is the <wiki key="xu.music" />, directed by <wiki key="polina.bespalko" />.
+            </p>
+        </li>
+    </ul>
+</div>

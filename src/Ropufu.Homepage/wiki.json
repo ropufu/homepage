@@ -1,0 +1,82 @@
+﻿{
+  "my.arxiv": {
+    "link": "https://arxiv.org/a/sokolov_g_1",
+    "fallback name": "ArXiv"
+  },
+  "my.github": {
+    "link": "https://github.com/ropufu",
+    "fallback name": "GitHub"
+  },
+  "mipt": {
+    "link": "https://mipt.ru/english/about/about-mipt/",
+    "fallback name": "Moscow Institute of Physics and Technology"
+  },
+  "usc": {
+    "link": "https://usc.edu",
+    "fallback name": "University of Southern California"
+  },
+  "bu": {
+    "link": "https://binghamton.edu",
+    "fallback name": "Binghamton University"
+  },
+  "xu": {
+    "link": "https://xavier.edu",
+    "fallback name": "Xavier University"
+  },
+  "cams": {
+    "link": "https://dornsife.usc.edu/cams/",
+    "fallback name": "Center for Applied Mathematical Sciences"
+  },
+  "usc.math": {
+    "link": "https://dornsife.usc.edu/mathematics/",
+    "fallback name": "Department of Mathematics"
+  },
+  "bu.zip": {
+    "link": "https://www.math.binghamton.edu",
+    "fallback name": "Binghamton, NY 13902-6000"
+  },
+  "bu.math": {
+    "link": "https://www.math.binghamton.edu",
+    "fallback name": "Department of Mathematical Sciences"
+  },
+  "bu.math.faculty": {
+    "link": "https://www2.math.binghamton.edu/p/people/faculty_directory",
+    "fallback name": "List of Faculty"
+  },
+  "xu.zip": {
+    "link": "https://www.xavier.edu/mathematics-department",
+    "fallback name": "Cincinnati, OH 45207"
+  },
+  "xu.math": {
+    "link": "https://www.xavier.edu/mathematics-department",
+    "fallback name": "Department of Mathematics"
+  },
+  "xu.math.faculty": {
+    "link": "https://www.xavier.edu/campusuite25/modules/faculty.cfm?grp_id=29",
+    "fallback name": "List of Faculty"
+  },
+  "xu.music": {
+    "link": "https://www.xavier.edu/musicseries/",
+    "fallback name": "Xavier Music Series"
+  },
+  "polina.bespalko": {
+    "link": "https://www.xavier.edu/music-program/directory/polina-bespalko",
+    "fallback name": "Polina Bespalko"
+  },
+  "tartakov": {
+    "link": "https://www.researchgate.net/profile/Alexander_Tartakovsky",
+    "fallback name": "Alexander Tartakovsky"
+  },
+  "poliakoff": {
+    "link": "https://www.nottingham.ac.uk/chemistry/people/martyn.poliakoff",
+    "fallback name": "Sir Martyn Poliakoff"
+  },
+  "periodic.videos": {
+    "link": "https://periodicvideos.com/",
+    "fallback name": "Periodic Videos"
+  },
+  "exploding.h.bubbles": {
+    "link": "https://www.youtube.com/watch?v=d49TzVF1gmY",
+    "fallback name": "Exploding Hydrogen Bubbles"
+  }
+}

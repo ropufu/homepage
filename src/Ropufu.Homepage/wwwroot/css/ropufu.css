@@ -1,0 +1,43 @@
+
+#cy {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.totoro {width:4ex;height:4ex;margin-left:1em;margin-bottom:-1.0ex;}
+.jiji .fur {fill:black;}
+.jiji .nose {fill:black;}
+.jiji:hover .nose {fill:#FFCCCC;transition:all 0.1s;}
+.jiji .the-white {fill:white;}
+.jiji .pupil {fill:black;}
+.jiji:hover .pupil {fill:#0099CC;transition:all 0.1s;}
+
+.fox {width:150px;height:150px;margin-left:1em;margin-bottom:-1.0ex;}
+.juubi .fur {fill:#E37224;}
+.juubi .empty {fill:none;}
+.juubi .the-white {fill:white;}
+.juubi .pupil {fill:#4A6A28;}
+.juubi .hat-far {fill:#AD8224;}
+.juubi .hat-near {fill:#EFB64A;}
+.juubi .stroke {stroke:black;stroke-width:7;stroke-miterlimit:2.61313;}
+.juubi:hover .pupil {fill:#0099CC;transition:all 0.5s;}
+
+.xavier-logo {width:20px;height:20px;margin-top:-0.3ex;}
+.xavier-logo .border-outer {fill:#9EA2A2;}
+.xavier-logo .border-inner {fill:#FFFFFF;}
+.xavier-logo .letter-x {fill:#0C2340;}
+
+.xavier-logo:hover .border-outer {fill:#9EA2A2;transition:all 0.2s;}
+.xavier-logo:hover .border-inner {fill:#0C2340;transition:all 0.2s;}
+.xavier-logo:hover .letter-x {fill:#FFFFFF;transition:all 0.2s;}
+
+.xavier-logo-inv .border-outer {fill:#9EA2A2;}
+.xavier-logo-inv .border-inner {fill:#0C2340;}
+.xavier-logo-inv .letter-x {fill:#FFFFFF;}
+
+.xavier-logo-inv:hover .border-outer {fill:#9EA2A2;transition:all 0.2s;}
+.xavier-logo-inv:hover .border-inner {fill:#FFFFFF;transition:all 0.2s;}
+.xavier-logo-inv:hover .letter-x {fill:#0C2340;transition:all 0.2s;}

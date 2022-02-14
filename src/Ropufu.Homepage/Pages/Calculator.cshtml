@@ -1,0 +1,221 @@
+﻿@page
+@model CalculatorModel
+@{
+    ViewData["Title"] = "Calculator";
+}
+
+<div class="card">
+    <div class="card-header text-center">
+        <h3 class="card-title">Tools and Toys</h3>
+    </div>
+</div>
+
+<div class="accordion" id="toolsAccordion">
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="headingOne">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                Continuous Distributions
+            </button>
+        </h2>
+        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#toolsAccordion">
+            <div class="accordion-body">
+                <div class="p-2">
+                    <select class="form-select" id="whichDistribution" aria-label="Distribution">
+                        <option selected>Choose Distribution</option>
+                        <option value="normal">Standard Normal</option>
+                        <option value="student">Student's t</option>
+                    </select>
+                </div>
+                <div class="p-2 visually-hidden" id="normalParams">
+                    <b>X</b> has Standard Normal (Gaussian) distribution.
+                </div>
+                <div class="p-2 visually-hidden" id="studentParams">
+                    <b>X</b> has Student's t-distribution with <input type="number" class="form-control mx-1 d-inline w-auto" id="studentDegrees" value="1" min="1" max="200" step="1" maxlength="3" /> degrees of freedom.
+                </div>
+                <form class="p-2 needs-validation visually-hidden" id="leftTail">
+                    Probability that <b>X</b> does not exceed <input type="number" class="form-control mx-1 d-inline w-auto" id="leftTailThreshold" min="-5" max="5" maxlength="10" /> equals <span id="leftTailValue">??</span>.
+                </form>
+                <form class="p-2 needs-validation visually-hidden" id="inverseCdf">
+                    Probability that <b>X</b> does not exceed <span id="inverseCdfValue">??</span> equals <input type="number" class="form-control mx-1 d-inline w-auto" id="inverseCdfThreshold" min="0" max="1" maxlength="15" />.
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="headingTwo">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                Empirical Quantiles
+            </button>
+        </h2>
+        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#toolsAccordion">
+            <div class="accordion-body">
+                <form class="p-2 needs-validation">
+                    <label for="rawData">Comma-separated list of numbers: </label>
+                    <input type="text" class="form-control mx-1 d-inline w-auto" id="rawData" />
+                </form>
+                <div class="p-2 visually-hidden" id="variousStatistics">
+                    Number of elements: <span id="statisticCount"></span>.
+                    <br />
+                    Order statistic: <span id="statisticSorted"></span>.
+                    <br />
+                    Mean: <span id="statisticMean"></span>.
+                    <br />
+                    Standard deviation (population): <span id="statisticSDP"></span>.
+                    <br />
+                    Standard deviation (sample): <span id="statisticSDS"></span>.
+                </div>
+                <form class="p-2 visually-hidden" id="quantileStatistics">
+                    Proportion of elements with value less than or equal to <input type="number" class="form-control mx-1 d-inline w-auto" id="whichQuantileThreshold" /> equals <span id="whichQuantileValue">??</span>.
+                    <br />
+                    Proportion of elements with value strictly less than <span id="whichQuantileMirror">??</span> equals <span id="whichQuantileStrictValue">??</span>.
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/lib/mathjs/math.min.js"></script>
+    <script src="~/js/calculator.js" asp-append-version="true"></script>
+    <script>
+        let selectedDist = ropufu.bad;
+        let sortedData = ropufu.bad;
+
+        function onDistributionChanged() {
+            const distName = document.getElementById("whichDistribution").value;
+            const knownNames = ["normal", "student"];
+            const toHide = [];
+            const toReveal = [];
+
+            if (knownNames.includes(distName))
+                toReveal.push(distName);
+
+            knownNames.forEach(function (x) {
+                if (!toReveal.includes(x))
+                    toHide.push(x);
+            });
+
+            toHide.forEach(function (x) { hideElementById(x + "Params"); });
+            toReveal.forEach(function (x) { unhideElementById(x + "Params"); });
+
+            switch (distName) {
+                case "normal":
+                    selectedDist = ropufu.distNormal();
+                    break;
+                case "student":
+                    let degrees = parseNumber(document.getElementById("studentDegrees").value);
+                    let isValid = Number.isInteger(degrees) && degrees >= 1 && degrees <= 200;
+                    invalidateElementById("studentDegrees", isValid);
+                    if (isValid)
+                        selectedDist = ropufu.distStudent(degrees);
+                    else
+                        selectedDist = ropufu.bad;
+                    break;
+                default:
+                    selectedDist = ropufu.bad;
+                    break;
+            }
+
+            if (selectedDist === ropufu.bad) {
+                hideElementById("leftTail");
+                hideElementById("inverseCdf");
+            } else {
+                unhideElementById("leftTail");
+                unhideElementById("inverseCdf");
+            }
+
+            recalculateDistribution();
+        }
+
+        function recalculateLeftTail() {
+            let x = parseNumber(document.getElementById("leftTailThreshold").value);
+            let isValid = !Number.isNaN(x);
+            invalidateElementById("leftTailThreshold", isValid);
+
+            if (selectedDist === ropufu.bad)
+                isValid = false;
+
+            let y = isValid ? selectedDist.cdf(x) : Number.NaN;
+            document.getElementById("leftTailValue").innerHTML = prettyNumber(y);
+        }
+
+        function recalculateInverseCdf() {
+            let x = parseNumber(document.getElementById("inverseCdfThreshold").value);
+            let isValid = !Number.isNaN(x) && (x >= 0.0) && (x <= 1.0);
+            invalidateElementById("inverseCdfThreshold", isValid);
+
+            if (selectedDist === ropufu.bad)
+                isValid = false;
+
+            let y = isValid ? selectedDist.quantile(x) : Number.NaN;
+            document.getElementById("inverseCdfValue").innerHTML = prettyNumber(y);
+        }
+
+        function recalculateDistribution() {
+            let leftTailThreshold = document.getElementById("leftTailThreshold");
+            let leftTailValue = document.getElementById("leftTailValue");
+
+            let inverseCdfThreshold = document.getElementById("inverseCdfThreshold");
+            let inverseCdfValue = document.getElementById("inverseCdfValue");
+
+            if (selectedDist === ropufu.bad) {
+                leftTailValue.innerHTML = prettyNumber(Number.NaN);
+                inverseCdfValue.innerHTML = prettyNumber(Number.NaN);
+            } else {
+                recalculateLeftTail();
+                recalculateInverseCdf();
+            }
+        }
+
+        function onRawDataChanged() {
+            sortedData = ropufu.orderStatistic(document.getElementById("rawData").value);
+
+            if (sortedData === ropufu.bad) {
+                invalidateElementById("rawData", false);
+                hideElementById("variousStatistics");
+                hideElementById("quantileStatistics");
+                return;
+            }
+            
+            document.getElementById("statisticCount").innerHTML = sortedData.sorted.length;
+            document.getElementById("statisticSorted").innerHTML = sortedData.sorted;
+            document.getElementById("statisticMean").innerHTML = sortedData.mean;
+            document.getElementById("statisticSDP").innerHTML = sortedData.sdPopulation;
+            document.getElementById("statisticSDS").innerHTML = sortedData.sdSample;
+
+            recalculateWhichQuantile();
+            
+            invalidateElementById("rawData", true);
+            unhideElementById("variousStatistics");
+            unhideElementById("quantileStatistics");
+        }
+
+        function recalculateWhichQuantile() {
+            let x = parseNumber(document.getElementById("whichQuantileThreshold").value);
+            let isValid = !Number.isNaN(x);
+            invalidateElementById("whichQuantileThreshold", isValid);
+            document.getElementById("whichQuantileMirror").innerHTML = prettyNumber(x);
+
+            if (sortedData === ropufu.bad)
+                isValid = false;
+
+            let y = isValid ? sortedData.whichQuantile(x, false) : Number.NaN;
+            let z = isValid ? sortedData.whichQuantile(x, true) : Number.NaN;
+            document.getElementById("whichQuantileValue").innerHTML = prettyNumber(y);
+            document.getElementById("whichQuantileStrictValue").innerHTML = prettyNumber(z);
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("whichDistribution").oninput = onDistributionChanged;
+            document.getElementById("studentDegrees").oninput = onDistributionChanged;
+            document.getElementById("rawData").oninput = onRawDataChanged;
+            
+            document.getElementById("leftTailThreshold").oninput = recalculateLeftTail;
+            document.getElementById("inverseCdfThreshold").oninput = recalculateInverseCdf;
+            document.getElementById("whichQuantileThreshold").oninput = recalculateWhichQuantile;
+
+            onDistributionChanged();
+            onRawDataChanged();
+        });
+    </script>
+}

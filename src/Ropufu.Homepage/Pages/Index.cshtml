@@ -1,0 +1,64 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Greg Sokolov's Home Page";
+}
+
+<div class="card">
+    <div class="card-header text-center">
+        <h3 class="card-title">
+            Hi, my name is Grisha
+            <embed-content src="/images/totoro.svg" />
+        </h3>
+        <p class="card-text">
+            I am an Assistant Professor at the <wiki key="xu.math" />, <wiki key="xu" />,<br />
+            Cincinnati, OH.
+        </p>
+    </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+            <h5 class="text-muted">A little bit about me</h5>
+            <p>
+                My postdoc years I spent at the <wiki key="bu.math" /> at <wiki key="bu" />&mdash;a most amazing place in every respect&mdash;where in addition to the usual stuff I fell in love with topology.
+            </p>
+            <p>
+                Previously, I graduated from the <wiki key="usc.math" /> at <wiki key="usc" /> in 2014 under the supervision of Prof. <wiki key="tartakov" />.
+            </p>
+            <p>
+                And it all started with <wiki key="mipt" /> where I received my M.S. in Applied Mathematics and Physics / Information Processing and Control Systems in 2008. I still consider myself a bit of a physist.
+            </p>
+            <p>
+                I will finish off with my favorite quote which I discovered <s>not so long</s> while watching one of the <wiki key="periodic.videos" /> about <wiki key="exploding.h.bubbles" />:
+            </p>
+            <div class="card-body">
+                <blockquote class="blockquote mb-0" cite="https://www.youtube.com/watch?v=d49TzVF1gmY&t=203">
+                    <p class="h6"><em>And it's always good to be wrong. It shows that you are learning something.</em></p>
+                    <footer class="h6 mt-1">&mdash; <wiki key="poliakoff" /></footer>
+                </blockquote>
+                @*<blockquote class="blockquote mb-0" cite="https://www.youtube.com/watch?v=1HM_YBEfEDA&t=238">
+                    <p>And anything that makes you think is good.</p>
+                    <footer class="h6 mt-1">&mdash; <wiki key="poliakoff" /></footer>
+                </blockquote>*@
+            </div>
+        </li>
+        <li class="list-group-item">
+            <h5 class="text-muted">Research interests</h5>
+            When not teaching, I am primarily interested in applied probability and theoretical statistics (sequential analysis, to be more specific).<br />
+            In the past I've also had a lovely time with numerical analysis and parallel programming. I still find the computer science aspect of mathematical research quite fascinating.<br />
+        </li>
+        @*<li class="list-group-item">
+            <h5 class="text-muted">Links and references</h5>
+            You can find more information in my <a class="wiki-link" href="~/documents/sokolovg-cv.pdf" target="_blank">CV</a>, and find some of my work on:
+            <ul>
+                <li><wiki key="my.arxiv" /></li>
+                <li><wiki key="my.github" /></li>
+            </ul>
+        </li>*@
+        <li class="list-group-item">
+            <h5 class="text-muted">Possibly irrelevant</h5>
+            <p>
+                I love to sail, I cannot play the piano as well as I would like to, and the number of slides I claim to have on my presentations is 1729.
+            </p>
+        </li>
+    </ul>
+</div>

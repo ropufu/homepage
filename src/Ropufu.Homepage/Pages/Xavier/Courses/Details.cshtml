@@ -1,0 +1,97 @@
+@page "{prefix:alpha}-{number:int:min(100):max(999)}"
+@model Xavier.Courses.DetailsModel
+@{
+    ViewData["Title"] = $"Courses: {this.Model.CourseTitle}";
+}
+
+@if (this.Model.SingleCourse is null)
+{
+    <h2 class="text-danger">Sorry m(_ _)m</h2>
+    <span>Requested course was not found.</span>
+}
+else
+{
+    <div class="card card-header flex-row justify-content-center">
+        <div class="text-center ">
+            <h4 class="card-title">@this.Model.SingleCourse.CatalogueIdWithSuffix</h4>
+            <h3 class="card-title">@this.Model.SingleCourse.Name</h3>
+        </div>
+        @*<div>
+            <a class="card-body" target="_blank" asp-page="Graph" asp-route-number="@this.Model.SingleCourse.Number" asp-route-prefix="@this.Model.SingleCourse.Prefix">
+                <img src="~/images/graph.svg" width="50" height="50" alt="Prerequisites graph" />
+            </a>
+        </div>*@
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            @this.Model.SingleCourse.Description
+        </div>
+
+        @if (this.Model.SingleCourse.Prerequisites.Count == 0)
+        {
+            <div class="card-body">
+                <h5>No prerequisites.</h5>
+            </div>
+        }
+        else
+        {
+            <div class="card-body">
+                <h5>Prerequisites:</h5>
+                <ul class="list-group list-group-flush">
+                    @foreach (var p in this.Model.SingleCourse.Prerequisites)
+                    {
+                        @if (p is null) continue;
+                        @if (p.RequiredCourse is null) continue;
+                        <li class="list-group-item">
+                            <a class="wiki-link" asp-page="Details" asp-route-number="@p.RequiredCourse.Number" asp-route-prefix="@p.RequiredCourse.Prefix">[@p.RequiredCourse.CatalogueIdWithSuffix] @p.RequiredCourse.Name</a>
+                            -- with a grade of at least @p.RequiredCourseGrade.
+                        </li>
+                    }
+                </ul>
+            </div>
+        }
+
+        @if (this.Model.SingleCourse.TeachingHistory.Count == 0)
+        {
+            <div class="card-body">
+                <h5>We have no records of this class teaching history.</h5>
+            </div>
+        }
+        else
+        {
+            <div class="card-body">
+                <h5>Teaching history:</h5>
+                <ul class="list-group list-group-flush">
+                    @foreach (var byTerm in this.Model.SingleCourse.TeachingHistory
+                         .OrderByDescending(h => h.Term)
+                         .GroupBy(h => h.Term))
+                    {
+                        var isSummer = byTerm.Key.Semester == Data.SchoolSemester.Summer;
+                        var listItemClass = isSummer ? "text-secondary" : string.Empty;
+
+                        <li class="list-group-item @listItemClass">
+                            <div class="row">
+                                <div class="col-2">
+                                    <b>@byTerm.Key.Year</b>
+                                    @byTerm.Key.Semester.ToString()
+                                </div>
+                                <div class="col">
+                                    --
+                                    @string.Join(", ",
+                                        (from h in byTerm
+                                            group h by h.Person into byPerson
+                                            orderby byPerson.Key.LastName, byPerson.Key.FirstName
+                                            let countSections = byPerson.Count()
+                                            let suffix = countSections > 1 ? $" (x{countSections})" : string.Empty
+                                            let display = string.Concat(byPerson.Key.AugmentedLastName, suffix)
+                                            select display)).
+                                </div>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </div>
+        }
+    </div>
+}

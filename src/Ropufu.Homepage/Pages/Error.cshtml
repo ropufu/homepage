@@ -1,0 +1,23 @@
+﻿@page
+@model ErrorModel
+@{
+    ViewData["Title"] = "Error";
+}
+
+<environment include="Development">
+    <h2 class="text-danger">Error</h2>
+    @if (this.Model.RequestId is not null)
+    {
+        <p>
+            <strong>Request ID:</strong> <code>@this.Model.RequestId</code>
+        </p>
+    }
+    @if (this.Model.ExceptionMessage is not null)
+    {
+        <p>@this.Model.ExceptionMessage</p>
+    }
+</environment>
+<environment exclude="Development">
+    <h2 class="text-danger">An error has occurred o_0</h2>
+    <span>We have failed you.</span>
+</environment>

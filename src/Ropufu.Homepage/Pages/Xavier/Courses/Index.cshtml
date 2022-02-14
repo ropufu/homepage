@@ -1,0 +1,39 @@
+@page
+@model Xavier.Courses.IndexModel
+@{
+    ViewData["Title"] = "Courses";
+}
+
+<div class="visually-hidden" id="no-results-message">
+    <h2 class="text-danger">Sorry m(_ _)m</h2>
+    <span>We don't have anything for you at the moment.</span>
+</div>
+
+<div class="card" id="results-list">
+    <ul class="list-group list-group-flush">
+        @foreach (IGrouping<int, Data.Course> cat in this.Model.CoursesByLevel)
+        {
+            <li class="list-group-item" id="@Xavier.Courses.IndexModel.HtmlGroupingId(cat)">
+                <h5 class="text-muted">@(100 * cat.Key)'s</h5>
+                <ul>
+                    @foreach (Data.Course item in cat)
+                    {
+                        <li class="my-1" id="@Xavier.Courses.IndexModel.HtmlItemId(item)">
+                            <a asp-area="" asp-page="Details" asp-route-number="@item.Number" asp-route-prefix="@item.Prefix">[@item.CatalogueIdWithSuffix] @item.Name</a>
+                            <span>@item.Description</span>
+                        </li>
+                    }
+                </ul>
+            </li>
+        }
+    </ul>
+</div>
+
+@section Scripts {
+    <script>
+        const catIds = [@Html.Raw(this.Model.JavascriptGroupingKeys)];
+        const catCounts = Array(catIds.length);
+        const courses = [@Html.Raw(this.Model.JavascriptItems)];
+        enablePageSearch(catIds, catCounts, courses, "results-list", "no-results-message");
+    </script>
+}

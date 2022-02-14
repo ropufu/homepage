@@ -1,0 +1,89 @@
+﻿@page
+@model Xavier.HiringModel
+@{
+    ViewData["Title"] = "Hiring Randomized Block Design";
+}
+
+<h5 class="text-muted">Hiring Block Design Generator</h5>
+<p>
+    Please use this tool to generate comma-separated-values (.csv) spreadsheets aimed at:
+    <ul>
+        <li>Eliminating possible bias arising from a committee member reviewing applications sequentially, one at a time.</li>
+        <li>Making sure that if not every application is reviewed by the entire committee, the way reviewers are distributed between applications is unbiased.</li>
+    </ul>
+    @*<div class="text-muted my-2">
+        <a class="wiki-link" href="~/documents/hiring-practices.pdf" target="_blank">References.</a>
+    </div>*@
+</p>
+Number of applicants =
+<input type="number" class="mx-1" id="countApplicants" min="1" max="@Controllers.HiringController.MaxApplicants" value="@(Controllers.HiringController.MaxApplicants / 10)" maxlength="4" />
+(1 -- @Controllers.HiringController.MaxApplicants)
+<br />
+Number of committee members =
+<input type="number" class="mx-1" id="countReviewers" min="1" max="@Controllers.HiringController.MaxReviewers" value="@(Controllers.HiringController.MaxReviewers / 2)" maxlength="2" />
+(1 -- @Controllers.HiringController.MaxReviewers)
+<br />
+<input type="checkbox" id="reduceCommitteeLoad" onchange="updateBlockDesignAnchor();" />
+<label for="reduceCommitteeLoad"> Reduce committee load</label> <span id="reviewersPerAllication"></span>
+<br />
+<a id="hiringAnchor" class="btn btn-sm btn-outline-secondary nav-link me-sm-2 my-2" style="width: 10em;">Generate</a>
+<p>
+    Spreadsheet generated will contain the following columns:
+    <ul>
+        <li>Application number.</li>
+        <li>Indicator (0 or 1) of whether the first committee member should review the application.</li>
+        <li>Indicator (0 or 1) of whether the second committee member should review the application.</li>
+        <li>...</li>
+        <li>Indicator (0 or 1) of whether the last committee member should review the application.</li>
+        <li>Sequence in which the first committee member should review the applications.</li>
+        <li>Sequence in which the second committee member should review the applications.</li>
+        <li>...</li>
+        <li>Sequence in which the last committee member should review the applications.</li>
+    </ul> 
+</p>
+
+@section Scripts {
+    <script>
+        function truncate(element, a, b) {
+            let number = parseNumber(element.value);
+            if (number < a) {
+                number = a;
+                element.value = a;
+            }
+            if (number > b) {
+                number = b;
+                element.value = b;
+            }
+            return number;
+        }
+
+        function updateBlockDesignAnchor() {
+            let reduceLoad = document.getElementById("reduceCommitteeLoad");
+            let anchor = document.getElementById("hiringAnchor");
+            
+            let countApplicants = truncate(document.getElementById("countApplicants"), 1, @Controllers.HiringController.MaxApplicants);
+            let countReviewers = truncate(document.getElementById("countReviewers"), 1, @Controllers.HiringController.MaxReviewers);
+
+            if (countReviewers > 1)
+                reduceLoad.disabled = false;
+            else {
+                reduceLoad.checked = false;
+                reduceLoad.disabled = true;
+            }
+            
+            let offload = (reduceLoad.checked) ? -1 : 0;
+            var countReviewersPerApplication = countReviewers + offload;
+
+            document.getElementById("reviewersPerAllication").innerHTML = "(" + countReviewersPerApplication + " reviewers per application)";
+            anchor.href = "/api/hiring/" + countApplicants + "/" + countReviewers + "/" + offload;
+            anchor.target = "_blank";
+        }
+        
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("countApplicants").oninput = updateBlockDesignAnchor;
+            document.getElementById("countReviewers").oninput = updateBlockDesignAnchor;
+
+            updateBlockDesignAnchor();
+        });
+    </script>
+}

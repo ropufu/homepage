@@ -1,0 +1,39 @@
+@page
+@model LinksModel
+@{
+    ViewData["Title"] = "Various Links";
+}
+
+<div class="visually-hidden" id="no-results-message">
+    <h2 class="text-danger">Sorry m(_ _)m</h2>
+    <span>We don't have anything for you at the moment.</span>
+</div>
+
+<div class="card" id="results-list">
+    <ul class="list-group list-group-flush">
+        @foreach (IGrouping<string, Data.WebResource> cat in this.Model.LinksByCategory)
+        {
+            <li class="list-group-item" id="@LinksModel.HtmlGroupingId(cat)">
+                <h5 class="text-muted">@cat.Key</h5>
+                <ul>
+                    @foreach (Data.WebResource item in cat)
+                    {
+                        <li class="my-1" id="@LinksModel.HtmlItemId(item)">
+                            <a class="wiki-link" target="_blank" href="@item.UniformResourceLocator">@item.Name</a>
+                            <span>@item.Description</span>
+                        </li>
+                    }
+                </ul>
+            </li>
+        }
+    </ul>
+</div>
+
+@section Scripts {
+    <script>
+        const catIds = [@Html.Raw(this.Model.JavascriptGroupingKeys)];
+        const catCounts = Array(catIds.length);
+        const links = [@Html.Raw(this.Model.JavascriptItems)];
+        enablePageSearch(catIds, catCounts, links, "results-list", "no-results-message");
+    </script>
+}

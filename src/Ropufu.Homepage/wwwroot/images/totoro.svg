@@ -1,0 +1,15 @@
+<svg class="totoro" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" version="1.1" viewBox="0 0 2500 2500" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g class="jiji">
+    <path class="fur" d="M892.7 2071.28c-288.7,-383.94 -362.02,-1736.06 -159.54,-1938.81 177.09,143.81 381.75,525.87 570.31,518.66 91.25,-3.49 184.68,23.69 283.86,-61.93 196.22,-169.39 284.6,-371.23 495.07,-449.77 120.06,119.97 2.65,1639.89 -289.7,1931.86 -220.57,0 -563.85,0 -900,0z"></path>
+    <circle class="the-white" cx="958.97" cy="1058.46" r="174.48"></circle>
+    <circle class="pupil" cx="933.91" cy="1026.43" r="102.87"></circle>
+    <circle class="the-white" cx="1667.84" cy="1049.99" r="201.82"></circle>
+    <circle class="pupil" cx="1639.81" cy="1021.97" r="104.84"></circle>
+    <rect class="fur" transform="matrix(0.990464 0.137774 -0.137774 0.990464 362.425 1013.51)" width="342.91" height="43.39"></rect>
+    <rect class="fur" transform="matrix(0.732742 0.0580377 -0.0425985 0.998314 425.645 1235.78)" width="342.91" height="43.39"></rect>
+    <rect class="fur" transform="matrix(0.999927 -0.0187884 0.0120651 1.55714 445.064 1528.06)" width="342.91" height="43.39"></rect>
+    <rect class="fur" transform="matrix(0.727646 -0.15235 0.224961 1.13422 2031.37 1038.81)" width="342.91" height="43.39"></rect>
+    <rect class="fur" transform="matrix(0.624806 0.0567787 -0.107054 0.83934 1997.35 1408)" width="342.91" height="43.39"></rect>
+    <path class="nose" d="M1162.58 1193.13c78.91,0 162.15,-20 260,-20 28.29,46.86 20.99,78.14 -12.57,74.83 -191.15,-18.89 37.17,72.08 -121.42,72.89 -162.45,0.83 28.09,-80.13 -100.09,-57.18 -41.32,7.4 -78.51,-20.28 -25.93,-70.54z"></path>
+</g>
+</svg>

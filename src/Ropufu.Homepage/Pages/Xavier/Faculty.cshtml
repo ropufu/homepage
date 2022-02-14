@@ -1,0 +1,41 @@
+﻿@page
+@model Xavier.FacultyModel
+@{
+    ViewData["Title"] = "Faculty";
+}
+
+<div class="card">
+    <div class="card-header text-center">
+        <h3 class="card-title">Faculty</h3>
+    </div>
+    <ul class="list-group list-group-flush">
+        @foreach (var item in this.Model.People)
+        {
+            <li class="list-group-item">
+                @item.FullName
+                @if (!string.IsNullOrEmpty(item.Homepage))
+                {
+                    <a href="@item.Homepage" target="_blank">(Homepage)</a>
+                }
+                --
+                <span class="text-muted">
+                    @{
+                        var courses = (from h in item.TeachingHistory
+                                       orderby h.Course?.CatalogueId ?? ""
+                                       group h by h.Course into byCourse
+                                       select byCourse).ToList();
+                        var countCourses = courses.Count;
+                        var i = 0;
+                    }
+                    @foreach (var c in courses)
+                    {
+                        ++i;
+                        <a class="wiki-link" alt="@c.Key.CatalogueIdWithSuffix" asp-page="Courses/Details"
+                            asp-route-number="@c.Key.Number"
+                            asp-route-prefix="@c.Key.Prefix">@c.Key.Name</a>@(i == countCourses ? "." : ";");
+                    }
+                </span>
+            </li>
+        }
+    </ul>
+</div>
