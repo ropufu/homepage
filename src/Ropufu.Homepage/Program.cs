@@ -3,10 +3,15 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Ropufu.Homepage.Data;
+using System.Reflection;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+// Supposedly bad practice: UserSecrets are enabled by default only in production environment.
+// It must be for a good reason, but I could not find it.
+Assembly assembly = Assembly.Load(new AssemblyName(builder.Environment.ApplicationName));
+builder.Configuration.AddUserSecrets(assembly);
 SqlConnectionStringBuilder connectionBuilder = new(
     builder.Configuration.GetConnectionString($"{Environment.OSVersion.Platform}"));
 connectionBuilder.Password = builder.Configuration["RopufuDbPassword"];
