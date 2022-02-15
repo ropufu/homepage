@@ -33,9 +33,12 @@ https://docs.microsoft.com/en-us/aspnet/core/security/app-secrets
 ==========================================================================
 secrets.json
 ==========================================================================
---- Add "RopufuDbPassword" 
+--- Add "RopufuDbPassword"
 ==========================================================================
 ==========================================================================
+Note: on production server, add
+    Environment=ROPUFU_DB_PASSWORD=<whatever_your_password_is>
+to the kestrel service file.
 
 
 ==========================================================================
@@ -54,9 +57,9 @@ secrets.json
     to
         SqlConnectionStringBuilder connectionBuilder = new(
             builder.Configuration.GetConnectionString($"{Environment.OSVersion.Platform}"));
-        connectionBuilder.Password = builder.Configuration["RopufuDbPassword"];
+        builder.Configuration.AddEnvironmentVariables(prefix: "ROPUFU");
+        connectionBuilder.Password = builder.Configuration["ROPUFU_DB_PASSWORD"];
         string connectionString = connectionBuilder.ConnectionString;
-   
 --- Remove the "app.UseHttpsRedirection();" line.
 --- Remove the "app.UseHsts();" line.
 --- Replace the entire block following "// Configure the HTTP request pipeline."
