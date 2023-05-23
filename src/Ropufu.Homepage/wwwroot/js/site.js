@@ -105,3 +105,16 @@ function enablePageSearch(categoryIds, categoryCounts, itemsList, fullContainerE
         searchBox.focus();
     });
 }
+
+function truncate(element, a, b) {
+    let number = parseNumber(element.value);
+    if (number < a) {
+        number = a;
+        element.value = a;
+    }
+    if (number > b) {
+        number = b;
+        element.value = b;
+    }
+    return number;
+}

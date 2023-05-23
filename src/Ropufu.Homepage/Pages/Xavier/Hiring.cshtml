@@ -44,19 +44,6 @@ Number of committee members =
 
 @section Scripts {
     <script>
-        function truncate(element, a, b) {
-            let number = parseNumber(element.value);
-            if (number < a) {
-                number = a;
-                element.value = a;
-            }
-            if (number > b) {
-                number = b;
-                element.value = b;
-            }
-            return number;
-        }
-
         function updateBlockDesignAnchor() {
             let reduceLoad = document.getElementById("reduceCommitteeLoad");
             let anchor = document.getElementById("hiringAnchor");

@@ -23,7 +23,11 @@
     "link": "https://xavier.edu",
     "fallback name": "Xavier University"
   },
-  "cams": {
+  "tcnj": {
+    "link": "https://tcnj.edu/",
+    "fallback name": "The College of New Jersey"
+  },
+  "usc.cams": {
     "link": "https://dornsife.usc.edu/cams/",
     "fallback name": "Center for Applied Mathematical Sciences"
   },
@@ -39,10 +43,6 @@
     "link": "https://www.math.binghamton.edu",
     "fallback name": "Department of Mathematical Sciences"
   },
-  "bu.math.faculty": {
-    "link": "https://www2.math.binghamton.edu/p/people/faculty_directory",
-    "fallback name": "List of Faculty"
-  },
   "xu.zip": {
     "link": "https://www.xavier.edu/mathematics-department",
     "fallback name": "Cincinnati, OH 45207"
@@ -51,13 +51,17 @@
     "link": "https://www.xavier.edu/mathematics-department",
     "fallback name": "Department of Mathematics"
   },
-  "xu.math.faculty": {
-    "link": "https://www.xavier.edu/campusuite25/modules/faculty.cfm?grp_id=29",
-    "fallback name": "List of Faculty"
-  },
   "xu.music": {
     "link": "https://www.xavier.edu/musicseries/",
     "fallback name": "Xavier Music Series"
+  },
+  "tcnj.math": {
+    "link": "https://mathstat.tcnj.edu/",
+    "fallback name": "Department of Mathematics and Statistics"
+  },
+  "tcnj.zip": {
+    "link": "https://mathstat.tcnj.edu/",
+    "fallback name": "Ewing, NJ 08628"
   },
   "polina.bespalko": {
     "link": "https://www.xavier.edu/music-program/directory/polina-bespalko",
@@ -67,6 +71,10 @@
     "link": "https://www.researchgate.net/profile/Alexander_Tartakovsky",
     "fallback name": "Alexander Tartakovsky"
   },
+  "lototsky": {
+    "link": "https://dornsife.usc.edu/profile/sergey-lototsky/",
+    "fallback name": "Sergey Lototsky"
+  },
   "poliakoff": {
     "link": "https://www.nottingham.ac.uk/chemistry/people/martyn.poliakoff",
     "fallback name": "Sir Martyn Poliakoff"
@@ -75,7 +83,7 @@
     "link": "https://periodicvideos.com/",
     "fallback name": "Periodic Videos"
   },
-  "exploding.h.bubbles": {
+  "exploding.H.bubbles": {
     "link": "https://www.youtube.com/watch?v=d49TzVF1gmY",
     "fallback name": "Exploding Hydrogen Bubbles"
   }

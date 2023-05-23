@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.0.32126.317
+VisualStudioVersion = 17.5.33627.172
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ropufu.Homepage", "src\Ropufu.Homepage\Ropufu.Homepage.csproj", "{BDF4035B-4456-4DB6-B259-21FE5FB422AE}"
 EndProject

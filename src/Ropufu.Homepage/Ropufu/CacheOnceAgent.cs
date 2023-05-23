@@ -36,8 +36,8 @@ public static class MemoryCacheExtender
     public static T GetOrCreateOnce<T>(this IMemoryCache memoryCache, object key, CacheOnceAgent<T> agent, MemoryCacheEntryOptions options, Func<T> factory)
     {
         // The value hasn't expired yet.
-        if (memoryCache.TryGetValue(key, out T value))
-            return value;
+        if (memoryCache.TryGetValue(key, out T? value))
+            return value!;
 
         // The value has expired: execute factory method for few unlucky users.
         return agent.UpdateOnce(memoryCache, key, options, factory);
