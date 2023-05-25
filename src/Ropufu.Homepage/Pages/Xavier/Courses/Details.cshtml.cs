@@ -10,7 +10,7 @@ public class DetailsModel : PageModel
     
     public DetailsModel(ApplicationDbContext context)
     {
-        this._context = context;
+        _context = context;
     }
 
     public Course? SingleCourse { get; private set; }
@@ -19,12 +19,12 @@ public class DetailsModel : PageModel
 
     public void OnGet(string prefix, int number)
     {
-        if (this._context.Courses is null)
+        if (_context.Courses is null)
             throw new ApplicationException();
 
         prefix = prefix.Reduce().ToUpperInvariant();
 
-        this.SingleCourse = this._context.Courses
+        this.SingleCourse = _context.Courses
             .Include(c => c.Prerequisites)
             .ThenInclude(p => p.RequiredCourse)
             .Include(c => c.TeachingHistory)

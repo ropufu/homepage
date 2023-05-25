@@ -10,30 +10,30 @@ public class NameMinimizer
     {
         if (first <= last)
         {
-            this._first = first;
-            this._last = last;
+            _first = first;
+            _last = last;
         } // if (...)
         else
         {
-            this._first = last;
-            this._last = first;
+            _first = last;
+            _last = first;
         } // else
-        this._next.Add(this._first);
+        _next.Add(_first);
     }
 
     public string Next()
     {
-        string result = new(this._next.ToArray());
+        string result = new(_next.ToArray());
 
         var position = 0;
-        ++this._next[position];
-        while (this._next[position] == this._last + 1)
+        ++_next[position];
+        while (_next[position] == _last + 1)
         {
-            this._next[position] = this._first;
+            _next[position] = _first;
             ++position;
-            if (position == this._next.Count)
-                this._next.Add(this._first);
-            else ++this._next[position];
+            if (position == _next.Count)
+                _next.Add(_first);
+            else ++_next[position];
         } // while (...)
 
         return result;

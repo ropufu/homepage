@@ -14,7 +14,7 @@ public class ErrorModel : PageModel
 
     public ErrorModel(IWebHostEnvironment environment)
     {
-        this._environment = environment;
+        _environment = environment;
     }
 
     public string? RequestId { get; private set; }
@@ -23,7 +23,7 @@ public class ErrorModel : PageModel
 
     private void DisplayDetails()
     {
-        if (!this._environment.IsDevelopment())
+        if (!_environment.IsDevelopment())
             return;
 
         this.RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier;

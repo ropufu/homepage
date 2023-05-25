@@ -6,12 +6,12 @@ public class Vertex<TVertex, TEdge>
     private readonly List<Edge<TVertex, TEdge>> _incoming = new();
     private readonly List<Edge<TVertex, TEdge>> _outgoing = new();
 
-    public IEnumerable<Edge<TVertex, TEdge>> Incoming => this._incoming.AsReadOnly();
-    public IEnumerable<Edge<TVertex, TEdge>> Outgoing => this._outgoing.AsReadOnly();
+    public IEnumerable<Edge<TVertex, TEdge>> Incoming => _incoming.AsReadOnly();
+    public IEnumerable<Edge<TVertex, TEdge>> Outgoing => _outgoing.AsReadOnly();
 
     public TVertex Label { get; set; }
 
-    public int Order => this._incoming.Count + this._outgoing.Count;
+    public int Order => _incoming.Count + _outgoing.Count;
 
     public Vertex(TVertex label)
     {
@@ -21,7 +21,7 @@ public class Vertex<TVertex, TEdge>
     public Edge<TVertex, TEdge> MakeEdgeTo(Vertex<TVertex, TEdge> to, TEdge label)
     {
         Edge<TVertex, TEdge> edge = new(this, to, label);
-        this._outgoing.Add(edge);
+        _outgoing.Add(edge);
         to._incoming.Add(edge);
         return edge;
     }
@@ -33,15 +33,15 @@ public class Edge<TVertex, TEdge>
     private readonly Vertex<TVertex, TEdge> _from;
     private readonly Vertex<TVertex, TEdge> _to;
 
-    public Vertex<TVertex, TEdge> From => this._from;
-    public Vertex<TVertex, TEdge> To => this._to;
+    public Vertex<TVertex, TEdge> From => _from;
+    public Vertex<TVertex, TEdge> To => _to;
 
     public TEdge Label { get; set; }
 
     public Edge(Vertex<TVertex, TEdge> from, Vertex<TVertex, TEdge> to, TEdge label)
     {
-        this._from = from;
-        this._to = to;
+        _from = from;
+        _to = to;
         this.Label = label;
     }
 }
@@ -58,14 +58,14 @@ public class Graph<TVertex, TEdge>
     private readonly List<Vertex<TVertex, TEdge>> _vertices = new();
     private readonly List<Edge<TVertex, TEdge>> _edges = new();
 
-    public IEnumerable<Vertex<TVertex, TEdge>> Vertices => this._vertices.AsReadOnly();
+    public IEnumerable<Vertex<TVertex, TEdge>> Vertices => _vertices.AsReadOnly();
 
-    public IEnumerable<Edge<TVertex, TEdge>> Edges => this._edges.AsReadOnly();
+    public IEnumerable<Edge<TVertex, TEdge>> Edges => _edges.AsReadOnly();
 
     public bool TryFindFirstVertex(Func<TVertex, bool> predicate, out Vertex<TVertex, TEdge> vertex)
     {
         vertex = Graph<TVertex, TEdge>.s_missingVertex;
-        foreach (Vertex<TVertex, TEdge> item in this._vertices)
+        foreach (Vertex<TVertex, TEdge> item in _vertices)
             if (predicate(item.Label))
             {
                 vertex = item;
@@ -74,26 +74,26 @@ public class Graph<TVertex, TEdge>
         return false;
     }
 
-    public bool Empty => this._vertices.Count == 0;
+    public bool Empty => _vertices.Count == 0;
 
     public Vertex<TVertex, TEdge> AddVertex(TVertex label)
     {
         Vertex<TVertex, TEdge> vertex = new(label);
-        this._vertices.Add(vertex);
+        _vertices.Add(vertex);
         return vertex;
     }
 
     public Edge<TVertex, TEdge> AddEdge(Vertex<TVertex, TEdge> from, Vertex<TVertex, TEdge> to, TEdge label)
     {
         Edge<TVertex, TEdge> edge = from.MakeEdgeTo(to, label);
-        this._edges.Add(edge);
+        _edges.Add(edge);
         return edge;
     }
 
     public Graph<TVertex, TEdge> ConnectedComponentWith(Vertex<TVertex, TEdge> target)
     {
-        int countVertices = this._vertices.Count;
-        int countEdges = this._edges.Count;
+        int countVertices = _vertices.Count;
+        int countEdges = _edges.Count;
 
         Graph<TVertex, TEdge> subGraph = new();
         subGraph._vertices.Capacity = countVertices;

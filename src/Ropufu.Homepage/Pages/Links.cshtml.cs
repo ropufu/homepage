@@ -22,8 +22,8 @@ public class LinksModel : PageModel
 
     public LinksModel(ApplicationDbContext context, IMemoryCache memoryCache)
     {
-        this._context = context;
-        this._memoryCache = memoryCache;
+        _context = context;
+        _memoryCache = memoryCache;
     }
 
     public ILinksByCategory LinksByCategory { get; private set; } = LinksModel.s_no_links;
@@ -73,14 +73,14 @@ public class LinksModel : PageModel
 
     public void OnGet()
     {
-        if (this._context.WebResources is null)
+        if (_context.WebResources is null)
             throw new ApplicationException();
 
-        this.LinksByCategory = this._memoryCache.GetOrCreateOnce(
+        this.LinksByCategory = _memoryCache.GetOrCreateOnce(
             CacheKeys.LinksByCategory,
             LinksModel.s_agent,
             LinksModel.s_options,
-            () => this._context.WebResources
+            () => _context.WebResources
                 .OrderBy(l => l.Category)
                 .ThenBy(l => l.Name)
                 .ToList()

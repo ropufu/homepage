@@ -22,8 +22,8 @@ public class IndexModel : PageModel
 
     public IndexModel(ApplicationDbContext context, IMemoryCache memoryCache)
     {
-        this._context = context;
-        this._memoryCache = memoryCache;
+        _context = context;
+        _memoryCache = memoryCache;
     }
 
     public ICoursesByLevel CoursesByLevel { get; private set; } = IndexModel.s_no_courses;
@@ -67,14 +67,14 @@ public class IndexModel : PageModel
 
     public void OnGet()
     {
-        if (this._context.Courses is null)
+        if (_context.Courses is null)
             throw new ApplicationException();
 
-        this.CoursesByLevel = this._memoryCache.GetOrCreateOnce(
+        this.CoursesByLevel = _memoryCache.GetOrCreateOnce(
             CacheKeys.CoursesByLevel,
             IndexModel.s_agent,
             IndexModel.s_options,
-            () => this._context.Courses
+            () => _context.Courses
                 .OrderBy(l => l.Number)
                 .ToList()
                 .GroupBy(l => l.Number / 100));

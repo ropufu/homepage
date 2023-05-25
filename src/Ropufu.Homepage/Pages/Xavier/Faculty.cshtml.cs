@@ -19,22 +19,22 @@ public class FacultyModel : PageModel
 
     public FacultyModel(ApplicationDbContext context, IMemoryCache memoryCache)
     {
-        this._context = context;
-        this._memoryCache = memoryCache;
+        _context = context;
+        _memoryCache = memoryCache;
     }
 
     public IList<Person> People { get; private set; } = FacultyModel.s_no_people;
 
     public void OnGet()
     {
-        if (this._context.People is null)
+        if (_context.People is null)
             throw new ApplicationException();
 
-        this.People = this._memoryCache.GetOrCreateOnce(
+        this.People = _memoryCache.GetOrCreateOnce(
             CacheKeys.Faculty,
             FacultyModel.s_agent,
             FacultyModel.s_options,
-            () => this._context.People
+            () => _context.People
                 .Where(p => p.IsParticipatingFaculty)
                 .OrderBy(p => p.LastName).ThenBy(p => p.FirstName)
                 .Include(p => p.TeachingHistory)

@@ -13,20 +13,20 @@ public class CacheOnceAgent<T>
 
     public T UpdateOnce(IMemoryCache memoryCache, object key, MemoryCacheEntryOptions options, Func<T> factory)
     {
-        if (!Monitor.TryEnter(this._lock))
+        if (!Monitor.TryEnter(_lock))
             return this.LatestValue;
 
         T value = factory();
         if (value is null)
         {
-            Monitor.Exit(this._lock);
+            Monitor.Exit(_lock);
             return this.LatestValue;
         } // if (...)
 
         memoryCache.Set(key, value, options);
         this.LatestValue = value;
 
-        Monitor.Exit(this._lock);
+        Monitor.Exit(_lock);
         return value;
     }
 }

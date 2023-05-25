@@ -19,8 +19,8 @@ public class CoursesController : ControllerBase
 
     public CoursesController(ApplicationDbContext context)
     {
-        this._courses = context.Courses ?? throw new ArgumentException("Database context malformed.");
-        this._prerequisites = context.Prerequisites ?? throw new ArgumentException("Database context malformed.");
+        _courses = context.Courses ?? throw new ArgumentException("Database context malformed.");
+        _prerequisites = context.Prerequisites ?? throw new ArgumentException("Database context malformed.");
     }
 
     private bool TryBuildCourseGraph(out CourseGraph result)
@@ -28,10 +28,10 @@ public class CoursesController : ControllerBase
         result = new CourseGraph();
 
         // Add vertices.
-        foreach (Course c in this._courses)
+        foreach (Course c in _courses)
             result.AddVertex(c);
 
-        foreach (Prerequisite p in this._prerequisites
+        foreach (Prerequisite p in _prerequisites
             .Include(p => p.Course)
             .Include(p => p.RequiredCourse))
         {
