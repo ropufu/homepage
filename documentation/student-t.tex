@@ -1,0 +1,101 @@
+
+\documentclass[12pt]{article}
+\usepackage[intlimits]{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts,amstext,amsthm}
+\usepackage{paralist}        % {inparaenum} environment
+\usepackage{mathtools}       % {dcases} environment
+\usepackage{MnSymbol}        % \medstar
+\usepackage[normalem]{ulem}  % \sout
+\usepackage[usenames,dvipsnames]{xcolor} % Named colors
+\usepackage{hyperref}
+
+\usepackage[margin=2.5cm]{geometry}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+\usetikzlibrary{patterns}
+
+% ~~ Styling ~~
+\renewcommand{\geq}{\geqslant}
+\renewcommand{\leq}{\leqslant}
+
+\newcommand{\ignore}[1]{}
+\newcommand{\set}[1]{\left\{ #1 \right\}}
+\newcommand{\iid}{\overset{\text{iid}}{\sim}}
+
+\renewcommand{\Pr}{{\sf P}}           % Probability measure.
+\DeclareMathOperator{\EV}{{\sf E}}    % Expected value.
+\DeclareMathOperator{\Var}{{\sf Var}} % Variance.
+\DeclareMathOperator{\Cov}{{\sf Cov}} % Covariance.
+\DeclareMathOperator{\SE}{{\sf SE}}   % Standard error.
+\DeclareMathOperator{\Hyp}{\mathcal{H}}
+\DeclareMathOperator{\DNormal}{\mathcal{N}} % Normal distribution.
+
+% ~~ Linear Algebra ~~
+\renewcommand{\vec}[1]{\boldsymbol{#1}}
+\newcommand{\One}{\mathchoice{\rm 1\mskip-4.2mu l}{\rm 1\mskip-4.2mu l}{\rm 1\mskip-4.6mu l}{\rm 1\mskip-5.2mu l}}
+\newenvironment{algorithm}[1][]{\paragraph*{Algorithm#1.}}{\vspace{1ex}}
+
+% ~~ Paper-specific ~~
+\newcommand{\tX}{Y}
+\newcommand{\tS}{R}
+%\renewcommand{\tX}{\tilde{X}}
+%\renewcommand{\tS}{\tilde{S}}
+
+% Styling.
+\hypersetup{
+    colorlinks=true,%
+    bookmarksnumbered=true,%
+    bookmarksopen=true,%
+    citecolor=blue,%
+    urlcolor=blue,%
+    unicode=true,           % enable unicode encoded PDF strings
+    breaklinks=true         % allow links to break over lines by making
+                            % links over multiple lines into PDF
+                            % links to the same target
+}
+
+\begin{document}
+
+\subsubsection*{Student $t$-distribution.}
+
+The goal of this paper is to numerically implement a calculator for $t$-distribution quantiles, when the only available special function is the gamma function $\Gamma $.
+
+It is known that the density $f$ of $t$-distribution with $n \geq 1$ degrees of freedom is
+\[
+    f(t) = \frac{\Gamma \left((n + 1) / 2\right)}{\sqrt{n \pi } \, \Gamma (n / 2)} \, \left(1 + \frac{t^2}{n}\right)^{-(n + 1) / 2}.
+\]
+Its c.d.f.\ $F$ is usually expressed in terms of the regularized incomplete beta function $I_{z}(a, b)$. When $t > 0$,
+\[
+    F(t) = 1 - \frac{1}{2} I_{x(t)}\left(\frac{n}{2}, \frac{1}{2}\right) \qquad \text{where $x(t) = \displaystyle\frac{n}{t^2 + n}$}.
+\]
+From symmetry considerations, $F(0) = 1/2$, and when $t < 0$,
+\[
+    F(t) = \frac{1}{2} I_{x(t)} \left(\frac{n}{2}, \frac{1}{2}\right).
+\]
+
+The question is then how to evaluate $I_{z}(n / 2, 1 / 2)$. To that end, we will rely on the recursive property
+\[
+    I_z(a + 1, b) = I_z(a, b) - \frac{x^a (1 - x)^b \, \Gamma (a + b)}{\Gamma (a + 1) \Gamma (b)},
+\]
+to express any $I_{z}(n / 2, 1 / 2)$ in terms of either
+\[
+    I_z \left(\frac{1}{2}, \frac{1}{2}\right) = \frac{1}{\pi } \int _0 ^z \frac{dt}{\sqrt{t (1 - t)}}, \qquad \text{or} \qquad
+    I_z \left(1, \frac{1}{2}\right) = 1 - \sqrt{1 - z}.
+\]
+
+More specifically, if $n = 2 k$, $k \geq 1$,
+\begin{align*}
+    I_z \left(\frac{n}{2}, \frac{1}{2}\right) &= I_z \left(k, \frac{1}{2}\right) \\
+        &= I_z \left(1, \frac{1}{2}\right) - \sum _{j = 1} ^{k - 1} \frac{z^j \sqrt{1 - z} \, \Gamma (j + 1/2)}{j! \sqrt{\pi }} \\
+        &= 1 - \sqrt{1 - z} \left( 1 + \sum _{j = 1} ^{k - 1} \frac{z^j \, \Gamma (j + 1/2)}{j! \sqrt{\pi }} \right).
+\end{align*}
+If $n = 2 k + 1$, $k \geq 0$,
+\begin{align*}
+    I_z \left(\frac{n}{2}, \frac{1}{2}\right) &= I_z \left(k + \frac{1}{2}, \frac{1}{2}\right) \\
+        &= I_z \left(\frac{1}{2}, \frac{1}{2}\right) - \sum _{j = 1} ^{k} \frac{z^{j} \sqrt{1 - z} \, (j - 1)!}{\Gamma (j + 1/2) \sqrt{z \pi }}.
+\end{align*}
+
+
+\end{document}
